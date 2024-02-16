@@ -13,7 +13,6 @@ const App = () => {
   const [editCompleted, setEditCompleted] = useState(false);
   const [editId, setEditId] = useState(null);
   const [token, setToken] = useState('');
-  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     fetchData();
@@ -25,16 +24,11 @@ const App = () => {
       setToken(token);
     }
   }, []);
-
-  useEffect(() => {
-    console.log(apiUrl);
-  }, []);
-  
-
+  const url = 'http://localhost:3005/api/todos/';
   const fetchData = async () => {
     try {
       setLoading(true);
-      const response = await ApiPostMethodWithToken(`${apiUrl}/todos/viewall`, {}, token, 'GET');
+      const response = await ApiPostMethodWithToken(`${url}viewall`, {}, token, 'GET');
       setData(response);
     } catch (error) {
       setError(error);
@@ -54,7 +48,7 @@ const App = () => {
   const handleSubmit = async () => {
     if (inputValue.trim() !== '') {
       try {
-        await ApiPostMethodWithToken(`${apiUrl}/todos/add`, { title: inputValue, completed: completed }, token);
+        await ApiPostMethodWithToken(`${url}add`, { title: inputValue, completed: completed }, token);
         fetchData();
         setInputValue('');
         setCompleted(false);
@@ -82,7 +76,7 @@ const App = () => {
 
   const handleEditSubmit = async () => {
     try {
-      await ApiPostMethodWithToken(`${apiUrl}/todos/update/${editId}`, { title: editInputValue, completed: editCompleted }, token);
+      await ApiPostMethodWithToken(`${url}update/${editId}`, { title: editInputValue, completed: editCompleted }, token);
       fetchData();
       setEditMode(false);
       setEditEntry(null);
@@ -102,7 +96,7 @@ const App = () => {
 
   const handleDelete = async (id) => {
     try {
-      await ApiPostMethodWithToken(`${apiUrl}/todos/delete/${id}`, {}, token);
+      await ApiPostMethodWithToken(`${url}delete/${id}`, {}, token);
       fetchData();
     } catch (error) {
       setError(error);

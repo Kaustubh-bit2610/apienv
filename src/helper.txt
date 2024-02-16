@@ -1,0 +1,22 @@
+export function ApiPostMethodWithToken(url,data, token, method= 'POST'){
+    return fetch(url,{
+    method: method,
+    headers:{'content-type': 'application/json','Authorization': token},
+    body: JSON.stringify(data)
+    })
+    .then((resp) => rsep.json())
+    .then(function(result){
+        return result;
+    });
+}
+
+export function ApiPostMethodWithToken(url,data, token, method= "GET"){
+    return fetch(url,{
+    method: method,
+    headers:{'Content-type': 'application/json','Authorization': token},
+    })
+    .then((resp) => rsep.json())
+    .then(function(result){
+        return result;
+    });
+}
